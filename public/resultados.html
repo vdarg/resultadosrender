@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elecciones Generales Cisplatinas 2025</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            width: 80%;
+            max-width: 800px;
+        }
+        h2 {
+            font-style: italic;
+            text-align: left;
+            margin-bottom: 20px;
+        }
+        .party {
+            margin: 20px 0;
+            display: flex;
+            align-items: center;
+        }
+        .party img {
+            width: 50px;
+            height: auto;
+            margin-right: 15px;
+        }
+        .party div {
+            flex: 1;
+        }
+        .party span {
+            display: block;
+        }
+        .bar-container {
+            background-color: #e0e0e0;
+            border-radius: 5px;
+            overflow: hidden;
+            width: 100%;
+            margin-top: 10px;
+        }
+        .bar {
+            height: 20px;
+            border-radius: 5px;
+        }
+        .bar-FNR {
+            background-color: #28a745;
+        }
+        .bar-FP {
+            background-color: #dc3545;
+        }
+        .bar-AN {
+            background-color: #007bff;
+        }
+        .bar-NP {
+            background-color: #fd7e14;
+        }
+        .bar-V {
+            background-color: #6f42c1;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Elecciones Generales Cisplatinas 2025</h2>
+        <div id="resultados"></div>
+    </div>
+
+    <script>
+        function calcularResultados() {
+            const votosFNR = parseInt(localStorage.getItem('votosFNR')) || 0;
+            const votosFP = parseInt(localStorage.getItem('votosFP')) || 0;
+            const votosAN = parseInt(localStorage.getItem('votosAN')) || 0;
+            const votosNP = parseInt(localStorage.getItem('votosNP')) || 0;
+            const votosV = parseInt(localStorage.getItem('votosV')) || 0;
+
+            const totalVotos = votosFNR + votosFP + votosAN + votosNP + votosV;
+
+            const porcentajeFNR = totalVotos ? (votosFNR / totalVotos) * 100 : 0;
+            const porcentajeFP = totalVotos ? (votosFP / totalVotos) * 100 : 0;
+            const porcentajeAN = totalVotos ? (votosAN / totalVotos) * 100 : 0;
+            const porcentajeNP = totalVotos ? (votosNP / totalVotos) * 100 : 0;
+            const porcentajeV = totalVotos ? (votosV / totalVotos) * 100 : 0;
+
+            const resultados = [
+                { partido: 'Fuerza Nacional Republicana', votos: votosFNR, porcentaje: porcentajeFNR, color: 'FNR', logo: 'https://via.placeholder.com/50?text=FNR' },
+                { partido: 'Frente del Pueblo', votos: votosFP, porcentaje: porcentajeFP, color: 'FP', logo: 'https://via.placeholder.com/50?text=FP' },
+                { partido: 'Alianza Nueva', votos: votosAN, porcentaje: porcentajeAN, color: 'AN', logo: 'https://via.placeholder.com/50?text=AN' },
+                { partido: 'Nuevo Pais', votos: votosNP, porcentaje: porcentajeNP, color: 'NP', logo: 'https://via.placeholder.com/50?text=NP' },
+                { partido: 'Venceremos', votos: votosV, porcentaje: porcentajeV, color: 'V', logo: 'https://via.placeholder.com/50?text=V' }
+            ];
+
+            resultados.sort((a, b) => b.porcentaje - a.porcentaje);
+
+            const resultadosContainer = document.getElementById('resultados');
+            resultadosContainer.innerHTML = '';
+
+            resultados.forEach((resultado, index) => {
+                const partyDiv = document.createElement('div');
+                partyDiv.classList.add('party');
+                partyDiv.innerHTML = `
+                    <img src="${resultado.logo}" alt="${resultado.partido}">
+                    <div>
+                        <strong>${index + 1}º ${resultado.partido}</strong>
+                        <span>Votos: ${resultado.votos}</span>
+                        <span>Porcentaje: ${resultado.porcentaje.toFixed(2)}%</span>
+                        <div class="bar-container">
+                            <div class="bar bar-${resultado.color}" style="width: ${resultado.porcentaje}%;"></div>
+                        </div>
+                    </div>
+                `;
+                resultadosContainer.appendChild(partyDiv);
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', calcularResultados);
+    </script>
+</body>
+</html>
