@@ -1,95 +1,77 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cargar Votos</title>
+    <title>Elecciones Generales Cisplatinas 2025</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f0f0f0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
         }
         .container {
-            background-color: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-            width: 80%;
             max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
         }
         h1 {
-            text-align: center;
-            margin-bottom: 20px;
+            font-style: italic;
+            text-align: left;
         }
-        img.logo {
-            display: block;
-            margin: 0 auto 20px;
-            width: 150px; /* Tamaño del logo */
+        .form-group {
+            margin-bottom: 15px;
         }
         label {
             display: block;
-            margin-bottom: 10px;
+            margin-bottom: 5px;
         }
         input[type="number"] {
             width: 100%;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            margin-bottom: 20px;
+            padding: 8px;
+            box-sizing: border-box;
         }
         button {
-            background-color: #007bff;
+            padding: 10px 15px;
+            background-color: #4CAF50;
             color: white;
             border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
             cursor: pointer;
-            font-size: 16px;
         }
         button:hover {
-            background-color: #0056b3;
+            background-color: #45a049;
+        }
+        .logo {
+            display: block;
+            margin: 0 auto 20px;
         }
     </style>
 </head>
 <body>
     <div class="container">
         <img src="sp.png" alt="Super Panel" class="logo">
-        <h1>Cargar Votos</h1>
-        <form id="votosForm">
-            <label for="votosFNR">Fuerza Nacional Republicana:</label>
-            <input type="number" id="votosFNR" name="votosFNR">
-            <label for="votosFP">Frente del Pueblo:</label>
-            <input type="number" id="votosFP" name="votosFP">
-            <label for="votosAN">Alianza Nueva:</label>
-            <input type="number" id="votosAN" name="votosAN">
-            <label for="votosNP">Nuevo Pais:</label>
-            <input type="number" id="votosNP" name="votosNP">
-            <label for="votosV">Venceremos:</label>
-            <input type="number" id="votosV" name="votosV">
-            <button type="button" onclick="guardarVotos()">Guardar Votos</button>
+        <h1>Elecciones Generales Cisplatinas 2025</h1>
+        <form action="/cargar-votos" method="post">
+            <div class="form-group">
+                <label for="fuerza-nacional-republicana">Fuerza Nacional Republicana (verde):</label>
+                <input type="number" id="fuerza-nacional-republicana" name="Fuerza Nacional Republicana" min="0" required>
+            </div>
+            <div class="form-group">
+                <label for="frente-del-pueblo">Frente del Pueblo (rojo):</label>
+                <input type="number" id="frente-del-pueblo" name="Frente del Pueblo" min="0" required>
+            </div>
+            <div class="form-group">
+                <label for="alianza-nueva">Alianza Nueva (azul):</label>
+                <input type="number" id="alianza-nueva" name="Alianza Nueva" min="0" required>
+            </div>
+            <div class="form-group">
+                <label for="nuevo-pais">Nuevo País (naranja):</label>
+                <input type="number" id="nuevo-pais" name="Nuevo Pais" min="0" required>
+            </div>
+            <div class="form-group">
+                <label for="venceremos">Venceremos (violeta):</label>
+                <input type="number" id="venceremos" name="Venceremos" min="0" required>
+            </div>
+            <button type="submit">Cargar Votos</button>
         </form>
-        <script>
-            function guardarVotos() {
-                const votosFNR = document.getElementById('votosFNR').value;
-                const votosFP = document.getElementById('votosFP').value;
-                const votosAN = document.getElementById('votosAN').value;
-                const votosNP = document.getElementById('votosNP').value;
-                const votosV = document.getElementById('votosV').value;
-
-                localStorage.setItem('votosFNR', votosFNR);
-                localStorage.setItem('votosFP', votosFP);
-                localStorage.setItem('votosAN', votosAN);
-                localStorage.setItem('votosNP', votosNP);
-                localStorage.setItem('votosV', votosV);
-
-                alert('Votos guardados exitosamente!');
-            }
-        </script>
     </div>
 </body>
 </html>

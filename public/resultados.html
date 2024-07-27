@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,124 +7,108 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f0f0f0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
         }
         .container {
-            background-color: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-            width: 80%;
             max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
         }
-        h2 {
+        h1 {
             font-style: italic;
             text-align: left;
-            margin-bottom: 20px;
         }
         .party {
-            margin: 20px 0;
             display: flex;
             align-items: center;
+            margin-bottom: 20px;
         }
-        .party img {
+        .party-logo {
             width: 50px;
-            height: auto;
-            margin-right: 15px;
+            height: 50px;
+            margin-right: 20px;
         }
-        .party div {
-            flex: 1;
-        }
-        .party span {
-            display: block;
+        .party-info {
+            flex-grow: 1;
         }
         .bar-container {
-            background-color: #e0e0e0;
+            background-color: #f3f3f3;
             border-radius: 5px;
             overflow: hidden;
-            width: 100%;
-            margin-top: 10px;
         }
         .bar {
-            height: 20px;
+            height: 24px;
             border-radius: 5px;
         }
-        .bar-FNR {
-            background-color: #28a745;
+        .bar-green {
+            background-color: #4CAF50;
         }
-        .bar-FP {
-            background-color: #dc3545;
+        .bar-red {
+            background-color: #f44336;
         }
-        .bar-AN {
-            background-color: #007bff;
+        .bar-blue {
+            background-color: #2196F3;
         }
-        .bar-NP {
-            background-color: #fd7e14;
+        .bar-orange {
+            background-color: #FF9800;
         }
-        .bar-V {
-            background-color: #6f42c1;
+        .bar-violet {
+            background-color: #9C27B0;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h2>Elecciones Generales Cisplatinas 2025</h2>
+        <h1>Elecciones Generales Cisplatinas 2025</h1>
         <div id="resultados"></div>
     </div>
-
     <script>
-        function calcularResultados() {
-            const votosFNR = parseInt(localStorage.getItem('votosFNR')) || 0;
-            const votosFP = parseInt(localStorage.getItem('votosFP')) || 0;
-            const votosAN = parseInt(localStorage.getItem('votosAN')) || 0;
-            const votosNP = parseInt(localStorage.getItem('votosNP')) || 0;
-            const votosV = parseInt(localStorage.getItem('votosV')) || 0;
+        async function fetchResultados() {
+            const response = await fetch('/api/votos');
+            const votos = await response.json();
 
-            const totalVotos = votosFNR + votosFP + votosAN + votosNP + votosV;
-
-            const porcentajeFNR = totalVotos ? (votosFNR / totalVotos) * 100 : 0;
-            const porcentajeFP = totalVotos ? (votosFP / totalVotos) * 100 : 0;
-            const porcentajeAN = totalVotos ? (votosAN / totalVotos) * 100 : 0;
-            const porcentajeNP = totalVotos ? (votosNP / totalVotos) * 100 : 0;
-            const porcentajeV = totalVotos ? (votosV / totalVotos) * 100 : 0;
-
-            const resultados = [
-                { partido: 'Fuerza Nacional Republicana', votos: votosFNR, porcentaje: porcentajeFNR, color: 'FNR', logo: 'https://via.placeholder.com/50?text=FNR' },
-                { partido: 'Frente del Pueblo', votos: votosFP, porcentaje: porcentajeFP, color: 'FP', logo: 'https://via.placeholder.com/50?text=FP' },
-                { partido: 'Alianza Nueva', votos: votosAN, porcentaje: porcentajeAN, color: 'AN', logo: 'https://via.placeholder.com/50?text=AN' },
-                { partido: 'Nuevo Pais', votos: votosNP, porcentaje: porcentajeNP, color: 'NP', logo: 'https://via.placeholder.com/50?text=NP' },
-                { partido: 'Venceremos', votos: votosV, porcentaje: porcentajeV, color: 'V', logo: 'https://via.placeholder.com/50?text=V' }
+            const totalVotos = Object.values(votos).reduce((a, b) => a + b, 0);
+            const partidos = [
+                { nombre: "Fuerza Nacional Republicana", color: "green", logo: "https://via.placeholder.com/50/4CAF50" },
+                { nombre: "Frente del Pueblo", color: "red", logo: "https://via.placeholder.com/50/f44336" },
+                { nombre: "Alianza Nueva", color: "blue", logo: "https://via.placeholder.com/50/2196F3" },
+                { nombre: "Nuevo Pais", color: "orange", logo: "https://via.placeholder.com/50/FF9800" },
+                { nombre: "Venceremos", color: "violet", logo: "https://via.placeholder.com/50/9C27B0" }
             ];
-
-            resultados.sort((a, b) => b.porcentaje - a.porcentaje);
 
             const resultadosContainer = document.getElementById('resultados');
             resultadosContainer.innerHTML = '';
 
-            resultados.forEach((resultado, index) => {
-                const partyDiv = document.createElement('div');
-                partyDiv.classList.add('party');
-                partyDiv.innerHTML = `
-                    <img src="${resultado.logo}" alt="${resultado.partido}">
-                    <div>
-                        <strong>${index + 1}º ${resultado.partido}</strong>
-                        <span>Votos: ${resultado.votos}</span>
-                        <span>Porcentaje: ${resultado.porcentaje.toFixed(2)}%</span>
-                        <div class="bar-container">
-                            <div class="bar bar-${resultado.color}" style="width: ${resultado.porcentaje}%;"></div>
-                        </div>
+            partidos.forEach((partido, index) => {
+                const votosPartido = votos[partido.nombre];
+                const porcentaje = (votosPartido / totalVotos * 100).toFixed(2);
+                const barWidth = `${porcentaje}%`;
+
+                const partyElement = document.createElement('div');
+                partyElement.classList.add('party');
+                
+                const logoElement = document.createElement('img');
+                logoElement.src = partido.logo;
+                logoElement.alt = partido.nombre;
+                logoElement.classList.add('party-logo');
+
+                const partyInfo = document.createElement('div');
+                partyInfo.classList.add('party-info');
+                partyInfo.innerHTML = `
+                    <strong>${index + 1}º ${partido.nombre}</strong><br>
+                    Votos: ${votosPartido}<br>
+                    Porcentaje: ${porcentaje}%
+                    <div class="bar-container">
+                        <div class="bar bar-${partido.color}" style="width: ${barWidth};"></div>
                     </div>
                 `;
-                resultadosContainer.appendChild(partyDiv);
+
+                partyElement.appendChild(logoElement);
+                partyElement.appendChild(partyInfo);
+                resultadosContainer.appendChild(partyElement);
             });
         }
 
-        document.addEventListener('DOMContentLoaded', calcularResultados);
+        fetchResultados();
     </script>
 </body>
 </html>
