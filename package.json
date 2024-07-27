@@ -1,0 +1,12 @@
+{
+  "name": "my-election-app",
+  "version": "1.0.0",
+  "description": "Election results app",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js"
+  },
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
